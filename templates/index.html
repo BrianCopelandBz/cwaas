@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+<form class="form">
+    <div class="switch-field">
+      <div class="switch-title">Water temp?</div>
+      <input type="radio" id="switch_3_far_left" name="switch_3" value="too-cold" />
+      <label for="switch_3_far_left">Too Cold</label>
+      <input type="radio" id="switch_3_left" name="switch_3" value="cold" />
+      <label for="switch_3_left">Cold</label>
+      <input type="radio" id="switch_3_center" name="switch_3" value="perfect" />
+      <label for="switch_3_center">Perfect</label>
+			<input type="radio" id="switch_3_right" name="switch_3" value="lukewarm" />
+      <label for="switch_3_right">Lukewarm</label>
+      <input type="radio" id="switch_3_far_right" name="switch_3" value="hot" />
+      <label for="switch_3_far_right">Hot</label>
+    </div>
+    <!-- Un comment to display changes to Carl -->
+    <!-- <span id=result>?</span> -->
+</form>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{
+  url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+  <script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
+<script type=text/javascript>
+  $(function() {
+    $('#switch_3_far_left').change('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/_new_too_cold', {
+        }, function(data) {
+        $("#result").text(data.result);
+      });
+      return false;
+    });
+  });
+</script>
+<script type=text/javascript>
+  $(function() {
+    $('#switch_3_left').change('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/_new_cold', {
+        }, function(data) {
+        $("#result").text(data.result);
+      });
+      return false;
+    });
+  });
+</script>
+<script type=text/javascript>
+  $(function() {
+    $('#switch_3_center').change('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/_new_perfect', {
+        }, function(data) {
+        $("#result").text(data.result);
+      });
+      return false;
+    });
+  });
+</script>
+<script type=text/javascript>
+  $(function() {
+    $('#switch_3_right').change('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/_new_lukewarm', {
+        }, function(data) {
+        $("#result").text(data.result);
+      });
+      return false;
+    });
+  });
+</script>
+<script type=text/javascript>
+  $(function() {
+    $('#switch_3_far_right').change('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/_new_hot', {
+        }, function(data) {
+        $("#result").text(data.result);
+      });
+      return false;
+    });
+  });
+</script>
+</body>
+</html>

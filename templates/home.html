@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 </head>
 <body onload="myFunction()">
-
+<!-- <body> -->
   <div class="thermometer--too-cold">
     <span>Carl's water was<strong></strong> on {{update}} CST</span>
     <div class="glass">
@@ -57,6 +57,19 @@
     </div>
   </div>
 
+  <div class="printing"></div>
+
+  <script type=text/javascript>
+  function myFunction() {
+      var el = $('div[class^=thermometer]');
+      el.removeClass().addClass('thermometer--{{temp}}')
+    }
+  </script>
+
+</body>
+
+<script type="text/javascript" src="http://d3js.org/d3.v5.min.js"></script>
+<script type="text/javascript" src="http://static.mentful.com/gantt-chart-d3v2.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="{{
   url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
@@ -64,12 +77,109 @@
     $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
   </script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
-  <script type=text/javascript>
-  function myFunction() {
-      var el = $('div[class^=thermometer]');
-      el.removeClass().addClass('thermometer--{{temp}}')
-    }
-  </script>
+
+<script>
+var height = $(window).height() / 3;
+var width = $(window).width()*10 / 8;
+var margin = ({top: 20, right: 30, bottom: 30, left: 100});
+
+var updates = {{ history | tojson | safe}};
+
+var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S");
+var formatdate = d3.timeFormat("%H:%M");
+var toolTipFormat = d3.timeFormat("%m/%d %H:%M");
+
+//var temp_val = new Map([['too-cold', 1], ['cold', 2], ['perfect', 3], ['lukewarm', 4], ['hot', 5]]);
+
+updates.forEach( function(element) {
+  element.d3date = parseDate(element.updatedt);
+  //element.tempVal = temp_val.get(element.temp);
+});
+
+// domain of x axis is earliest latest timestamp
+// d3 has a method, extent, that returns min and max
+// use a map to send it an array of d3 dates
+var xScale = d3.scaleTime()
+  .domain(d3.extent(updates.map( element => element.d3date ) ))
+  .range([0, width]);
+
+var yScale = d3.scaleOrdinal()
+  .domain(['too-cold', 'cold', 'perfect', 'lukewarm', 'hot'])
+  //.domain(d3.extent(updates.map( element => element.tempVal ) ))
+  .range([height - margin.bottom,
+          height - margin.bottom - ((height - margin.bottom - margin.top) / 4),
+          height - margin.bottom - ((height - margin.bottom - margin.top) * 2 / 4),
+          height - margin.bottom - ((height - margin.bottom - margin.top) * 3 / 4),
+          margin.top
+         ]);
+
+
+var line = d3.line()
+  .x(function(d) { return xScale(d.d3date); })
+  .y(function(d) { return yScale(d.watertemp); })
+  .curve(d3.curveMonotoneX);
+
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+
+// 4. Call the y axis in a group tag
+svg.append("g")
+    .attr("class", "y axis")
+    .call(d3.axisLeft(yScale)
+         .ticks(5)
+
+          ); // Create an axis component with d3.axisLeft
+
+// 9. Append the path, bind the data, and call the line generator
+svg.append("path")
+    .datum(updates) // 10. Binds data to the line
+    .attr("class", "line") // Assign a class for styling
+    .attr("d", line); // 11. Calls the line generator
+
+svg.selectAll(".dot")
+    .data(updates)
+  .enter().append("circle") // Uses the enter().append() method
+    .attr("class", "dot") // Assign a class for styling
+    .attr("cx", function(d) { return xScale(d.d3date) })
+    .attr("cy", function(d) { return yScale(d.watertemp) })
+    .attr("r", 5)
+    .on("mouseover", function(d) {
+      div.transition()
+        .duration(200)
+        .style("opacity", .9);
+      div.html(toolTipFormat(d.d3date) + "<br/>" + d.watertemp)
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+      })
+    .on("mouseout", function(d) {
+      div.transition()
+        .duration(500)
+        .style("opacity", 0);
+    });
+
+d3.select("body").attr("align","center");
+
+$(window).bind('resize', function(e)
+{
+  console.log('window resized..');
+  this.location.reload(false); /* false to get page from cache */
+  /* true to fetch page from server */
+});
+
+</script>
+
 <!--<script type=text/javascript>
   var perfis = ['too-cold', 'cold', 'perfect', 'lukewarm', 'hot'],
     el = $('div[class^=thermometer]'),
@@ -80,5 +190,5 @@ setInterval(function() {
 	el.removeClass().addClass('thermometer--'+random);
 }, 3500);
 </script>-->
-</body>
+
 </html>

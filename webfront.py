@@ -18,25 +18,13 @@ def dict_factory(cursor, row):
 
 @app.route('/')
 def home():
-    with sqlite3.connect('watertemp.db') as conn:
-        cget = conn.cursor()
-        cget.row_factory = dict_factory
-        cget.execute("""SELECT watertemp, datetime(sqltime, 'localtime', '-1 hour') as updatedt FROM watertemp ORDER BY sqltime DESC LIMIT 50""")
-        x = cget.fetchall()
-        current_update_dt = datetime.strptime(x[0]['updatedt'], '%Y-%m-%d %H:%M:%S').strftime("%A %n %d %I:%M %p")
-    return render_template('home.html', temp=x[0]['watertemp'], updatecurrent_update_dt, history=x)
-
-@app.route('/test')
-def test_site():
-    return render_template('test.html')
-
-@app.route('/test2')
-def test2_site():
-    return render_template('test2.html')
-
-@app.route('/test3')
-def test3_site():
-    return render_template('test3.html')
+with sqlite3.connect('watertemp.db') as conn:
+    cget = conn.cursor()
+    cget.row_factory = dict_factory
+    cget.execute("""SELECT watertemp, datetime(sqltime, 'localtime', '-1 hour') as updatedt FROM watertemp ORDER BY sqltime DESC LIMIT 50""")
+    x = cget.fetchall()
+    current_update_dt = datetime.strptime(x[0]['updatedt'], '%Y-%m-%d %H:%M:%S').strftime('%A %b %d %I:%M %p')
+    return render_template('home.html', temp=x[0]['watertemp'], update=current_update_dt, history=x)
 
 @app.route('/secret_carl_url')
 def test_switch():

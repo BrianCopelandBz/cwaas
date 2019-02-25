@@ -20,10 +20,9 @@ def home():
     with sqlite3.connect('watertemp.db') as conn:
         cget = conn.cursor()
         cget.row_factory = dict_factory
-        cget.execute("""SELECT watertemp, datetime(sqltime, 'localtime') as updatedt FROM watertemp ORDER BY sqltime DESC LIMIT 10""")
-        x = cget.fetchone()
-        y = cget.fetchall()
-    return render_template('home.html', temp=x['watertemp'], update=x['updatedt'], history=y)
+        cget.execute("""SELECT watertemp, datetime(sqltime, 'localtime') as updatedt FROM watertemp ORDER BY sqltime DESC LIMIT 50""")
+        x = cget.fetchall()
+    return render_template('home.html', temp=x[0]['watertemp'], update=x[0]['updatedt'], history=x)
 
 @app.route('/test')
 def test_site():

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from threading import Lock
 from werkzeug.serving import run_simple
+from datetime import datetime
 
 import sqlite3
 
@@ -20,9 +21,10 @@ def home():
     with sqlite3.connect('watertemp.db') as conn:
         cget = conn.cursor()
         cget.row_factory = dict_factory
-        cget.execute("""SELECT watertemp, datetime(sqltime, 'localtime') as updatedt FROM watertemp ORDER BY sqltime DESC LIMIT 50""")
+        cget.execute("""SELECT watertemp, datetime(sqltime, 'localtime', '-1 hour') as updatedt FROM watertemp ORDER BY sqltime DESC LIMIT 50""")
         x = cget.fetchall()
-    return render_template('home.html', temp=x[0]['watertemp'], update=x[0]['updatedt'], history=x)
+        current_update_dt = datetime.strptime(x[0]['updatedt'], '%Y-%m-%d %H:%M:%S').strftime("%A %n %d %I:%M %p")
+    return render_template('home.html', temp=x[0]['watertemp'], updatecurrent_update_dt, history=x)
 
 @app.route('/test')
 def test_site():

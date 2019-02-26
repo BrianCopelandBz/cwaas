@@ -55,6 +55,7 @@
         </defs>
       </svg>
     </div>
+    <br/>
   </div>
 
   <div class="printing"></div>
@@ -65,6 +66,7 @@
       el.removeClass().addClass('thermometer--{{temp}}')
     }
   </script>
+
 
 </body>
 
@@ -80,7 +82,7 @@
 
 <script>
 var height = $(window).height() / 3;
-var width = $(window).width()*10 / 8;
+var width = $(window).width()*8 / 10;
 var margin = ({top: 20, right: 30, bottom: 30, left: 100});
 
 var updates = {{ history | tojson | safe}};
@@ -178,6 +180,16 @@ $(window).bind('resize', function(e)
   /* true to fetch page from server */
 });
 
+</script>
+<script>
+  d3.select("body").append("div")
+    .attr("class","bottom-summary")
+    .append("span")
+    .html("<br/>")
+    .append("span")
+    .text("{{today_updates}} updates in the last 24 hours, where Carl's water has been {{today_temp_string}}.")
+    .append("span")
+    .text("{{total_updates}} total updates. Historically, Carl's water was {{total_temp_string}}.")
 </script>
 
 <!--<script type=text/javascript>

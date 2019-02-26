@@ -58,6 +58,15 @@ div.tooltip {
     opacity: 0.7;
 }
 
+.bottom-summary span {
+  font-family: Verdana;
+  font-size: 1rem;
+  color: #ccc;
+  min-width: 100%;
+  text-align: center;
+  display: block;
+}
+
 
 .thermometer, .thermometer--too-cold, .thermometer--cold, .thermometer--perfect, .thermometer--lukewarm, .thermometer--hot {
   max-width: 80%;

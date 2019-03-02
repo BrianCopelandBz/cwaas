@@ -57,8 +57,12 @@ def home():
         WHEN watertemp = 'lukewarm' then 4 WHEN watertemp = 'hot' then 5 ELSE 0 END) as score, COUNT(*) as theCount FROM watertemp
         WHERE sqltime > datetime(CURRENT_TIMESTAMP, '-1 day');""")
         today_agg = cget.fetchone()
-        today_updates = today_agg['theCount']
-        today_temp_string =  average_temp(today_agg['score'] / today_agg['theCount'])
+        if today_agg[0] == None:
+            today_updates = 0
+            today_temp_string = "not available"
+        else:
+            today_updates = today_agg['theCount']
+            today_temp_string =  average_temp(today_agg['score'] / today_agg['theCount'])
     return render_template('home.html',
         temp=x[0]['watertemp'],
         update=current_update_dt,

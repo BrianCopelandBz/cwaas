@@ -57,7 +57,7 @@ def home():
         WHEN watertemp = 'lukewarm' then 4 WHEN watertemp = 'hot' then 5 ELSE 0 END) as score, COUNT(*) as theCount FROM watertemp
         WHERE sqltime > datetime(CURRENT_TIMESTAMP, '-1 day');""")
         today_agg = cget.fetchone()
-        if today_agg[0] == None:
+        if today_agg['score'] == None:
             today_updates = 0
             today_temp_string = "not available"
         else:

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/home.css') }}">
+  <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/home.1.1.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 </head>
 <body onload="myFunction()">
 <!-- <body> -->
   <div class="thermometer--too-cold">
-    <span>Carl's water was<strong></strong> on {{update}} CST</span>
+    <span>Carl's water was<strong></strong> on {{update}} CST - <button id="permission-btn" onclick="main()">subscribe for updates</button></span>
     <div class="glass">
       <div class="liquid"></div>
       <svg class="ruler">
@@ -17,35 +17,40 @@
         <rect x="60%" y="0" width="20%" height="100%" fill="url(#ticks--lukewarm)"  rx="2"/>
         <rect x="80%" y="0" width="20%" height="100%" fill="url(#ticks--hot)"  rx="2"/>
         <defs>
-          <pattern id="ticks--too-cold" class="ticks--too-cold" width="60px" height="100%" patternUnits="userSpaceOnUse" x="0">
+          <pattern id="ticks--too-cold" class="ticks--too-cold" width="60px" height="100%"
+patternUnits="userSpaceOnUse" x="0">
             <line x1="1px" x2="1px" y2="6px" />
             <line x1="12px" x2="12px" y2="6px" />
             <line x1="24px" x2="24px" y2="6px" />
             <line x1="36px" x2="36px" y2="6px" />
             <line x1="48px" x2="48px" y2="10px" />
           </pattern>
-          <pattern id="ticks--cold" class="ticks--cold" width="60px" height="100%" patternUnits="userSpaceOnUse" x="0">
+          <pattern id="ticks--cold" class="ticks--cold" width="60px" height="100%" patternUnits="userSpaceOnUse"
+x="0">
             <line x1="1px" x2="1px" y2="6px" />
             <line x1="12px" x2="12px" y2="6px" />
             <line x1="24px" x2="24px" y2="6px" />
             <line x1="36px" x2="36px" y2="6px" />
             <line x1="48px" x2="48px" y2="10px" />
           </pattern>
-          <pattern id="ticks--perfect" class="ticks--perfect" width="60px" height="100%" patternUnits="userSpaceOnUse" x="0">
+          <pattern id="ticks--perfect" class="ticks--perfect" width="60px" height="100%"
+patternUnits="userSpaceOnUse" x="0">
             <line x1="1px" x2="1px" y2="6px" />
             <line x1="12px" x2="12px" y2="6px" />
             <line x1="24px" x2="24px" y2="6px" />
             <line x1="36px" x2="36px" y2="6px" />
             <line x1="48px" x2="48px" y2="10px" />
           </pattern>
-          <pattern id="ticks--lukewarm" class="ticks--lukewarm" width="60px" height="100%" patternUnits="userSpaceOnUse" x="0">
+          <pattern id="ticks--lukewarm" class="ticks--lukewarm" width="60px" height="100%"
+patternUnits="userSpaceOnUse" x="0">
             <line x1="1px" x2="1px" y2="6px" />
             <line x1="12px" x2="12px" y2="6px" />
             <line x1="24px" x2="24px" y2="6px" />
             <line x1="36px" x2="36px" y2="6px" />
             <line x1="48px" x2="48px" y2="10px" />
           </pattern>
-          <pattern id="ticks--hot" class="ticks--hot" width="60px" height="100%" patternUnits="userSpaceOnUse" x="0">
+          <pattern id="ticks--hot" class="ticks--hot" width="60px" height="100%" patternUnits="userSpaceOnUse"
+x="0">
             <line x1="1px" x2="1px" y2="6px" />
             <line x1="12px" x2="12px" y2="6px" />
             <line x1="24px" x2="24px" y2="6px" />
@@ -55,7 +60,6 @@
         </defs>
       </svg>
     </div>
-    <br/>
   </div>
 
   <div class="printing"></div>
@@ -67,18 +71,19 @@
     }
   </script>
 
-
 </body>
 
-<script type="text/javascript" src="http://d3js.org/d3.v5.min.js"></script>
-<script type="text/javascript" src="http://static.mentful.com/gantt-chart-d3v2.js"></script>
+<script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='gantt-chart-d3v2.js') }}"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='note.js') }}"></script>
 <script>window.jQuery || document.write('<script src="{{
   url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
   <script type=text/javascript>
     $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
   </script>
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+  <script type="text/javascript"
+src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
 
 <script>
 var height = $(window).height() / 3;

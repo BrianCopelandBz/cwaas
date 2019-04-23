@@ -58,21 +58,14 @@ div.tooltip {
     opacity: 0.7;
 }
 
-.bottom-summary span {
-  font-family: Verdana;
-  font-size: 1rem;
-  color: #ccc;
-  min-width: 100%;
-  text-align: center;
-  display: block;
-}
 
-
-.thermometer, .thermometer--too-cold, .thermometer--cold, .thermometer--perfect, .thermometer--lukewarm, .thermometer--hot {
+.thermometer, .thermometer--too-cold, .thermometer--cold, .thermometer--perfect, .thermometer--lukewarm,
+.thermometer--hot {
   max-width: 80%;
   margin: 2rem auto;
 }
-.thermometer span, .thermometer--too-cold span, .thermometer--cold span, .thermometer--perfect span, .thermometer--lukewarm span, .thermometer--hot span {
+.thermometer span, .thermometer--too-cold span, .thermometer--cold span, .thermometer--perfect span,
+.thermometer--lukewarm span, .thermometer--hot span {
   font-family: Verdana;
   font-size: 1rem;
   color: #ccc;
@@ -81,7 +74,8 @@ div.tooltip {
   display: block;
   margin-bottom: 1.25rem;
 }
-.thermometer .liquid, .thermometer--too-cold .liquid, .thermometer--cold .liquid, .thermometer--perfect .liquid, .thermometer--lukewarm .liquid, .thermometer--hot .liquid {
+.thermometer .liquid, .thermometer--too-cold .liquid, .thermometer--cold .liquid, .thermometer--perfect .liquid,
+.thermometer--lukewarm .liquid, .thermometer--hot .liquid {
   display: block;
   width: 100%;
   height: 1.275rem;
@@ -90,7 +84,8 @@ div.tooltip {
   margin: .25rem auto 0;
   position: relative;
 }
-.thermometer .liquid:before, .thermometer--too-cold .liquid:before, .thermometer--cold .liquid:before, .thermometer--perfect .liquid:before, .thermometer--lukewarm .liquid:before, .thermometer--hot .liquid:before {
+.thermometer .liquid:before, .thermometer--too-cold .liquid:before, .thermometer--cold .liquid:before,
+.thermometer--perfect .liquid:before, .thermometer--lukewarm .liquid:before, .thermometer--hot .liquid:before {
   position: absolute;
   content: "";
   height: 70%;
@@ -99,28 +94,52 @@ div.tooltip {
   border-radius: 10px;
   transition: width .3s ease;
 }
-.thermometer .ruler, .thermometer--too-cold .ruler, .thermometer--cold .ruler, .thermometer--perfect .ruler, .thermometer--lukewarm .ruler, .thermometer--hot .ruler {
+.thermometer .ruler, .thermometer--too-cold .ruler, .thermometer--cold .ruler, .thermometer--perfect .ruler,
+.thermometer--lukewarm .ruler, .thermometer--hot .ruler {
   height: .625rem;
   width: 100%;
   margin-left: 2px;
 }
-.thermometer .ruler .ticks--too-cold line, .thermometer--too-cold .ruler .ticks--too-cold line, .thermometer--cold .ruler .ticks--too-cold line, .thermometer--perfect .ruler .ticks--too-cold line, .thermometer--lukewarm .ruler .ticks--too-cold line, .thermometer--hot .ruler .ticks--too-cold line, .thermometer .ruler .ticks--cold line, .thermometer--too-cold .ruler .ticks--cold line, .thermometer--cold .ruler .ticks--cold line, .thermometer--perfect .ruler .ticks--cold line, .thermometer--lukewarm .ruler .ticks--cold line, .thermometer--hot .ruler .ticks--cold line, .thermometer .ruler .ticks--perfect line, .thermometer--too-cold .ruler .ticks--perfect line, .thermometer--cold .ruler .ticks--perfect line, .thermometer--perfect .ruler .ticks--perfect line, .thermometer--lukewarm .ruler .ticks--perfect line, .thermometer--hot .ruler .ticks--perfect line, .thermometer .ruler .ticks--lukewarm line, .thermometer--too-cold .ruler .ticks--lukewarm line, .thermometer--cold .ruler .ticks--lukewarm line, .thermometer--perfect .ruler .ticks--lukewarm line, .thermometer--lukewarm .ruler .ticks--lukewarm line, .thermometer--hot .ruler .ticks--lukewarm line, .thermometer .ruler .ticks--hot line, .thermometer--too-cold .ruler .ticks--hot line, .thermometer--cold .ruler .ticks--hot line, .thermometer--perfect .ruler .ticks--hot line, .thermometer--lukewarm .ruler .ticks--hot line, .thermometer--hot .ruler .ticks--hot line {
+.thermometer .ruler .ticks--too-cold line, .thermometer--too-cold .ruler .ticks--too-cold line,
+.thermometer--cold .ruler .ticks--too-cold line, .thermometer--perfect .ruler .ticks--too-cold line,
+.thermometer--lukewarm .ruler .ticks--too-cold line, .thermometer--hot .ruler .ticks--too-cold line,
+.thermometer .ruler .ticks--cold line, .thermometer--too-cold .ruler .ticks--cold line, .thermometer--cold
+.ruler .ticks--cold line, .thermometer--perfect .ruler .ticks--cold line, .thermometer--lukewarm .ruler
+.ticks--cold line, .thermometer--hot .ruler .ticks--cold line, .thermometer .ruler .ticks--perfect line,
+.thermometer--too-cold .ruler .ticks--perfect line, .thermometer--cold .ruler .ticks--perfect line,
+.thermometer--perfect .ruler .ticks--perfect line, .thermometer--lukewarm .ruler .ticks--perfect line,
+.thermometer--hot .ruler .ticks--perfect line, .thermometer .ruler .ticks--lukewarm line, .thermometer--too-cold
+.ruler .ticks--lukewarm line, .thermometer--cold .ruler .ticks--lukewarm line, .thermometer--perfect .ruler
+.ticks--lukewarm line, .thermometer--lukewarm .ruler .ticks--lukewarm line, .thermometer--hot .ruler
+.ticks--lukewarm line, .thermometer .ruler .ticks--hot line, .thermometer--too-cold .ruler .ticks--hot line,
+.thermometer--cold .ruler .ticks--hot line, .thermometer--perfect .ruler .ticks--hot line,
+.thermometer--lukewarm .ruler .ticks--hot line, .thermometer--hot .ruler .ticks--hot line {
   stroke-width: 2px;
   shape-rendering: crispEdges;
 }
-.thermometer .ruler .ticks--too-cold, .thermometer--too-cold .ruler .ticks--too-cold, .thermometer--cold .ruler .ticks--too-cold, .thermometer--perfect .ruler .ticks--too-cold, .thermometer--lukewarm .ruler .ticks--too-cold, .thermometer--hot .ruler .ticks--too-cold {
+.thermometer .ruler .ticks--too-cold, .thermometer--too-cold .ruler .ticks--too-cold, .thermometer--cold .ruler
+.ticks--too-cold, .thermometer--perfect .ruler .ticks--too-cold, .thermometer--lukewarm .ruler .ticks--too-cold,
+.thermometer--hot .ruler .ticks--too-cold {
   stroke: #249AA7;
 }
-.thermometer .ruler .ticks--cold, .thermometer--too-cold .ruler .ticks--cold, .thermometer--cold .ruler .ticks--cold, .thermometer--perfect .ruler .ticks--cold, .thermometer--lukewarm .ruler .ticks--cold, .thermometer--hot .ruler .ticks--cold {
+.thermometer .ruler .ticks--cold, .thermometer--too-cold .ruler .ticks--cold, .thermometer--cold .ruler
+.ticks--cold, .thermometer--perfect .ruler .ticks--cold, .thermometer--lukewarm .ruler .ticks--cold,
+.thermometer--hot .ruler .ticks--cold {
   stroke: #B8E1F2;
 }
-.thermometer .ruler .ticks--perfect, .thermometer--too-cold .ruler .ticks--perfect, .thermometer--cold .ruler .ticks--perfect, .thermometer--perfect .ruler .ticks--perfect, .thermometer--lukewarm .ruler .ticks--perfect, .thermometer--hot .ruler .ticks--perfect {
+.thermometer .ruler .ticks--perfect, .thermometer--too-cold .ruler .ticks--perfect, .thermometer--cold .ruler
+.ticks--perfect, .thermometer--perfect .ruler .ticks--perfect, .thermometer--lukewarm .ruler .ticks--perfect,
+.thermometer--hot .ruler .ticks--perfect {
   stroke: #ABD25E;
 }
-.thermometer .ruler .ticks--lukewarm, .thermometer--too-cold .ruler .ticks--lukewarm, .thermometer--cold .ruler .ticks--lukewarm, .thermometer--perfect .ruler .ticks--lukewarm, .thermometer--lukewarm .ruler .ticks--lukewarm, .thermometer--hot .ruler .ticks--lukewarm {
+.thermometer .ruler .ticks--lukewarm, .thermometer--too-cold .ruler .ticks--lukewarm, .thermometer--cold .ruler
+.ticks--lukewarm, .thermometer--perfect .ruler .ticks--lukewarm, .thermometer--lukewarm .ruler .ticks--lukewarm,
+.thermometer--hot .ruler .ticks--lukewarm {
   stroke: #F8C830;
 }
-.thermometer .ruler .ticks--hot, .thermometer--too-cold .ruler .ticks--hot, .thermometer--cold .ruler .ticks--hot, .thermometer--perfect .ruler .ticks--hot, .thermometer--lukewarm .ruler .ticks--hot, .thermometer--hot .ruler .ticks--hot {
+.thermometer .ruler .ticks--hot, .thermometer--too-cold .ruler .ticks--hot, .thermometer--cold .ruler
+.ticks--hot, .thermometer--perfect .ruler .ticks--hot, .thermometer--lukewarm .ruler .ticks--hot,
+.thermometer--hot .ruler .ticks--hot {
   stroke: #F1594A;
 }
 .thermometer--too-cold strong {

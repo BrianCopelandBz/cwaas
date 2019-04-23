@@ -9,7 +9,7 @@
 <div class="buttons">
   <h1>What temperature is your <code>water?</code></h1>
   <center>
-  <button onclick="clickFunction('too_cold')" class="fill">Too Cold</button>
+  <button onclick="clickFunction('too-cold')" class="fill">Too Cold</button>
   <button onclick="clickFunction('cold')" class="pulse">Cold</button>
   <button onclick="clickFunction('perfect')" class="close">Perfect</button>
   <button onclick="clickFunction('lukewarm')" class="raise">Lukewarm</button>
@@ -33,7 +33,7 @@
   </script>
 <script type=text/javascript>
   function clickFunction(path) {
-      $.getJSON($SCRIPT_ROOT + '/_new_' + path, {
+      $.getJSON($SCRIPT_ROOT + '/update-water?temp=' + path, {
         }, function(data) {
         $("#result").text(data.result);
       });

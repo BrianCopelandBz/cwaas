@@ -33,7 +33,7 @@
   </script>
 <script type=text/javascript>
   function clickFunction(path) {
-      $.getJSON($SCRIPT_ROOT + '/update-water?temp=' + path, {
+      $.getJSON($SCRIPT_ROOT + "/{{ secret }}/update-water?temp=" + path, {
         }, function(data) {
         $("#result").text(data.result);
       });

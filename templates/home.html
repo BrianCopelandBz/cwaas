@@ -7,7 +7,7 @@
 <body onload="myFunction()">
 <!-- <body> -->
   <div class="thermometer--too-cold">
-    <span>Carl's water was<strong></strong> on {{update}} CST - <button id="permission-btn" onclick="main()">subscribe for updates</button></span>
+    <span>Carl's water was<strong></strong> on {{update}} CST <!-- <button id="permission-btn" onclick="main()">subscribe for updates</button>--></span>
     <div class="glass">
       <div class="liquid"></div>
       <svg class="ruler">
@@ -195,6 +195,8 @@ $(window).bind('resize', function(e)
     .text("{{today_updates}} updates in the last 24 hours, where Carl's water has been {{today_temp_string}}.")
     .append("span")
     .text("{{total_updates}} total updates. Historically, Carl's water was {{total_temp_string}}.")
+    .append("span")
+    .html("<a href='/text_subscribe'>Manage Text Alerts</a>")
 </script>
 
 <!--<script type=text/javascript>

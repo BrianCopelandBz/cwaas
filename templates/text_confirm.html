@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/home.1.1.css') }}">-->
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">-->
+</head>
+<body>
+<!-- <body> -->
+Enter your phone number again (should be ten digits, 555-555-5555), along with the six digit confirmation code.
+  <form id="loadPhoneNumber">
+    Phone Number: <input type="text" id="phone_number" name="phone_number" />
+    Confirm Number: <input type="text" id="confirm_number" name="confirm_number" />
+    <input type="button" value="Confirm" onclick="onLoadConfigPress(document.getElementById('phone_number').value, document.getElementById('confirm_number').value);" />
+  </form>
+</body>
+
+<script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{
+  url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
+<script type=text/javascript>
+  function onLoadConfigPress(phone_number, confirm_number) {
+      $.getJSON($SCRIPT_ROOT + '/confirm?phone=' + phone_number + '&confirm=' + confirm_number, {
+        }, function(data) {
+          d3.select("body").append("div")
+            .attr("class","bottom-summary")
+            .append("span")
+            .html("<br/>")
+            .append("span")
+            .text(data.result)
+      });
+          return false;
+    };
+</script>
+
+</html>

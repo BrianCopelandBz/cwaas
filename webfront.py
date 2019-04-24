@@ -138,6 +138,9 @@ def update_water():
                  )
         return jsonify(result="updated to %s".format(temp_update))
 
+@app.route('/privacy_policy')
+def config_phone():
+    return render_template('privacy_policy.html')
 
 @app.route('/text_subscribe')
 def config_phone():

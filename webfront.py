@@ -75,6 +75,7 @@ def home():
         cget.row_factory = dict_factory
         cget.execute("""SELECT watertemp, datetime(sqltime, 'localtime', '-1 hour') as updatedt FROM watertemp ORDER BY sqltime DESC LIMIT 50""")
         x = cget.fetchall()
+        precise_update = x[0]['updatedt']
         current_update_dt = datetime.strptime(x[0]['updatedt'], '%Y-%m-%d %H:%M:%S').strftime('%A %b %d %I:%M %p')
         cget.execute("""SELECT SUM(CASE WHEN watertemp = 'too-cold' then 1 WHEN watertemp = 'cold' then 2 WHEN watertemp = 'perfect' then 3
         WHEN watertemp = 'lukewarm' then 4 WHEN watertemp = 'hot' then 5 ELSE 0 END) as score, COUNT(*) as theCount FROM watertemp;""")
@@ -91,6 +92,13 @@ def home():
         else:
             today_updates = today_agg['theCount']
             today_temp_string =  average_temp(today_agg['score'] / today_agg['theCount'])
+        cget.execute("""SELECT watertemp, datetime(sqltime, 'localtime', '-1 hour') as updatedt FROM watertemp ORDER BY sqltime DESC LIMIT 5""")
+        y = cget.fetchall()
+        # Get current feedback:
+        current_feedback = dict()
+        for feedback in ["like", "dislike", "fu", "heart", "sad"]:
+            cget.execute("SELECT count(*) as votes FROM water_ratings WHERE update_sqltime = ? AND feedback = ?",(precise_update, feedback,))
+            current_feedback[feedback] = cget.fetchone()['votes']
     return render_template('home.html',
         temp=x[0]['watertemp'],
         update=current_update_dt,
@@ -98,8 +106,29 @@ def home():
         total_updates=total_updates,
         total_temp_string=total_temp_string,
         today_updates=today_updates,
-        today_temp_string=today_temp_string
+        today_temp_string=today_temp_string,
+        last_five=y,
+        precise_update=precise_update,
+        likes=current_feedback['like'],
+        dislikes=current_feedback['dislike'],
+        fus=current_feedback['fu'],
+        hearts=current_feedback['heart'],
+        sads=current_feedback['sad']
         )
+
+@app.route('/water-feedback')
+def water_feedback():
+    feedback = request.args.get('feedback')
+    update_time = request.args.get('update')
+    if feedback not in ["like", "dislike", "fu", "heart", "sad"]:
+        print("feedback value not valid")
+        return jsonify(results = "temp must be too-cold, cold, perfect, lukewarm or hot"), 400
+    else:
+        with sqlite3.connect('watertemp.db') as conn:
+            cput = conn.cursor()
+            cput.execute("INSERT INTO water_ratings (update_sqltime, feedback, sqltime) VALUES (?, ?, CURRENT_TIMESTAMP)", (update_time, feedback,))
+            cput.close()
+        return jsonify(results = "submitted {} feedback".format(feedback)), 200
 
 @app.route('/{}'.format(secret_url))
 def test_switch():

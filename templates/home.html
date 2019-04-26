@@ -3,11 +3,29 @@
 <head>
   <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/home.1.1.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <style>
+  button {
+    padding: 20px;
+    background: transparent;
+    font-family: Verdana;
+    font-size: 1.25rem;
+    border: 1px solid lightblue;
+    color: #ccc;
+    }
+  </style>
+
 </head>
 <body onload="myFunction()">
 <!-- <body> -->
   <div class="thermometer--too-cold">
-    <span>Carl's water was<strong></strong> on {{update}} CST <!-- <button id="permission-btn" onclick="main()">subscribe for updates</button>--></span>
+    <span>Carl's water was<strong></strong> on {{update}} CST -
+      <button id="likebutton"><i class="fas fa-thumbs-up"></i>: {{likes}}</button>
+      <button id="dislikebutton"><i class="fas fa-thumbs-down">: {{dislikes}}</i></button>
+      <button id="fubutton"><i class="fas fa-hand-middle-finger"></i>: {{fus}}</button>
+      <button id="heartbutton"><i class="fas fa-heart"></i>: {{hearts}}</button>
+      <button id="sadbutton"><i class="fas fa-sad-tear"></i>: {{sads}}</button>
+    </span>
     <div class="glass">
       <div class="liquid"></div>
       <svg class="ruler">
@@ -61,6 +79,7 @@ x="0">
       </svg>
     </div>
   </div>
+
 
   <div class="printing"></div>
 
@@ -196,9 +215,105 @@ $(window).bind('resize', function(e)
     .append("span")
     .text("{{total_updates}} total updates. Historically, Carl's water was {{total_temp_string}}.")
     .append("span")
-    .html("<a href='/text_subscribe'>Manage Text Alerts</a>")
+    .html("<a href='/text_subscribe'>Manage Text Alerts</a><br/><br/>");
+
+</script>
+<script>
+
+var last_five_updates = {{ history | tojson | safe}};
+
+var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S");
+var formatdate = d3.timeFormat("%H:%M");
+var toolTipFormat = d3.timeFormat("%m/%d %H:%M");
+
+var iconWidth = 25;
+var iconHeight = 25;
+
+updates.forEach( function(element) {
+  element.d3date = parseDate(element.updatedt);
+  //element.tempVal = temp_val.get(element.temp);
+  var individual_update = d3.select("body").append("div")
+    .attr("class","bottom-summary")
+    .append("span")
+    .text(element.watertemp + " at " + toolTipFormat(element.d3date) + " - ");
+
+  individual_update.append('img')
+    .attr('width', iconWidth)
+    .attr('height', iconHeight)
+    .attr("src", "{{ url_for('static', filename='like_color.png') }}");
+
+  individual_update.append().text(": 0  ");
+
+  individual_update.append('img')
+    .attr('width', iconWidth)
+    .attr('height', iconHeight)
+    .attr("src", "{{ url_for('static', filename='sad_color.png') }}")
+
+  individual_update.append().text(": 0  ");
+
+  individual_update.append('img')
+    .attr('width', iconWidth)
+    .attr('height', iconHeight)
+    .attr("src", "{{ url_for('static', filename='pee_color.png') }}")
+
+  individual_update.append().text(": 0  ");
+
+  individual_update.append('img')
+    .attr('width', iconWidth)
+    .attr('height', iconHeight)
+    .attr("src", "{{ url_for('static', filename='poo_color.png') }}")
+
+  individual_update.append().text(": 0  ");
+
+  individual_update.append('span').html("<br/>");
+
+});
+
 </script>
 
+<script type=text/javascript>
+  function clickFunction(feedback) {
+      $.getJSON($SCRIPT_ROOT + "/water-feedback?feedback=" + feedback + "&update={{precise_update}}", {
+        }, function(data) {
+        $("#result").text(data.result);
+      });
+      return false;
+    };
+</script>
+
+
+<script>
+var likebutton = document.getElementById("likebutton"), likecount = {{likes}};
+  likebutton.onclick = function() {
+  clickFunction('like');
+  likecount += 1;
+  likebutton.innerHTML = "<i class='fas fa-thumbs-up'> : " + likecount;
+};
+var dislikebutton = document.getElementById("dislikebutton"), dislikecount = {{dislikes}};
+  dislikebutton.onclick = function() {
+  clickFunction('dislike');
+  dislikecount += 1;
+  dislikebutton.innerHTML = "<i class='fas fa-thumbs-down'> : " + dislikecount;
+};
+var  fubutton = document.getElementById("fubutton"), fucount = {{fus}};
+  fubutton.onclick = function() {
+  clickFunction('fu');
+  fucount += 1;
+  fubutton.innerHTML = "<i class='fas fa-hand-middle-finger'> : " + fucount;
+};
+var heartbutton = document.getElementById("heartbutton"), heartcount = {{hearts}};
+  heartbutton.onclick = function() {
+  clickFunction('heart');
+  heartcount += 1;
+  heartbutton.innerHTML = "<i class='fas fa-heart'> : " + heartcount;
+};
+var sadbutton = document.getElementById("sadbutton"), sadcount = {{sads}};
+  sadbutton.onclick = function() {
+  clickFunction('sad');
+  sadcount += 1;
+  sadbutton.innerHTML = "<i class='fas fa-sad-cry'> : " + sadcount;
+};
+</script>
 <!--<script type=text/javascript>
   var perfis = ['too-cold', 'cold', 'perfect', 'lukewarm', 'hot'],
     el = $('div[class^=thermometer]'),
